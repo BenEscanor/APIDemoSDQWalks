@@ -33,13 +33,12 @@ namespace SDQWalksAPI.Controllers
             var regionDomian = await regionRepository.GetAllAsync(filterOn, filterQuery, sortBy, isAccending ?? true, pageNumber, pageSize);
             mapper.Map<List<RegionDto>>(regionDomian);
 
-            throw new Exception("This is a new exception");
             return Ok(regionDomian);
         }
 
         [HttpGet]
         [Route("{id:guid}")]
-        [Authorize(Roles = "Reader,Writer")]
+        //[Authorize(Roles = "Reader,Writer")]
 
         public async Task<IActionResult> GetRegionById([FromRoute] Guid id)
         {
@@ -55,7 +54,7 @@ namespace SDQWalksAPI.Controllers
 
         [HttpPost]
         [ValidaModel]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> CreteRegion([FromBody] AddregionRequestDto addregionRequestDto)
         {
             var regionsDomain = mapper.Map<Region>(addregionRequestDto);
@@ -70,7 +69,7 @@ namespace SDQWalksAPI.Controllers
         [HttpPut]
         [Route("{id:guid}")]
         [ValidaModel]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> UpdateRegion([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
         {
             var regionDomain = mapper.Map<Region>(updateRegionRequestDto);
@@ -88,7 +87,7 @@ namespace SDQWalksAPI.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> DeteleRegion([FromRoute] Guid id)
         {
             var regionDomain = await regionRepository.Delete(id);
