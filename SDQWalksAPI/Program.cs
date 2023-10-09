@@ -125,7 +125,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<ExeptionHandlerMiddlerware>();
+//app.UseMiddleware<ExeptionHandlerMiddlerware>();
 app.UseHttpsRedirection();
 app.UseAuthentication ();
 app.UseStaticFiles(new StaticFileOptions
