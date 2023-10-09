@@ -23,7 +23,7 @@ namespace SDQWalksAPI.MiddleWares
             {
                 var errorId = Guid.NewGuid();
 
-                logger.LogError(ex, $"{errorId} : { ex.Message}");
+                logger.LogError(ex, $"{errorId} : {ex.Message}");
 
                 httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 httpContext.Response.ContentType = "application/json";

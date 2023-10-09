@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.FileProviders;
 using Serilog;
 using SDQWalksAPI.MiddleWares;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,18 +74,19 @@ builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IImageRepository, LocalImageRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-//builder.Services.AddRateLimiter(options =>
-//{
-//    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-//    options.AddPolicy("fixed", httpContext =>
-//    RateLimitPartition.GetFixedWindowLimiter(
-//        partitionKey: httpContext.User.Identity?.Name.ToString(),
-//        factory: _ => new FixedWindowRateLimiterOptions
-//        {
-//            PermitLimit = 10,
-//            Window = TimeSpan.FromSeconds(10)
-//        }));
-//});
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy("fixed", httpContext =>
+    RateLimitPartition.GetFixedWindowLimiter(
+        partitionKey: httpContext.User.Identity?.Name.ToString(),
+        factory: _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 10,
+            Window = TimeSpan.FromSeconds(10)
+        }));
+});
 builder.Services.AddIdentityCore<IdentityUser>()
     .AddRoles<IdentityRole>()
     .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("SDQWalks")
