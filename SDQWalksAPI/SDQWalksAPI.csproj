@@ -31,4 +31,8 @@
     <Folder Include="Logs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WebApp\WebApp.csproj" />
+  </ItemGroup>
+
 </Project>

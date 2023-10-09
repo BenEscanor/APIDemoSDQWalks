@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApp.Models.Dto;
 
 namespace WebApp.Controllers
 {
@@ -14,6 +15,8 @@ namespace WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            List<RegionDto> response = new List<RegionDto>();
+
             try
             {
                 var client = httpClientFactory.CreateClient();
@@ -22,8 +25,7 @@ namespace WebApp.Controllers
 
                 httpResponseMessage.EnsureSuccessStatusCode();
 
-                var stringResposeBody = await httpResponseMessage.Content.ReadAsStringAsync();
-                ViewBag.Response = stringResposeBody;
+                response.AddRange(await httpResponseMessage.Content.ReadFromJsonAsync<IEnumerable<RegionDto>>());
             }
             catch (Exception ex)
             {
